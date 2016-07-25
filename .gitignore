@@ -1,0 +1,8 @@
+.idea
+*.iml
+
+backend/node_modules
+
+frontend/node_modules
+frontend/typings
+frontend/bundle.js
