@@ -5,6 +5,7 @@ module.exports = {
     },
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "installedESLint": true,
+    "parser": 'babel-eslint',
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -13,7 +14,8 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "class-property"
     ],
     "rules": {
         "indent": [
