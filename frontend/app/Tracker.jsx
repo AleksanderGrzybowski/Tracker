@@ -3,6 +3,7 @@ import Timer from './Timer.jsx';
 import GPS from './GPS.js';
 import FakeGPS from './FakeGPS.js';
 import DebugPanel from './DebugPanel.jsx';
+import {distance} from './utils.js';
 
 export default class Tracker extends React.Component {
 
@@ -15,14 +16,25 @@ export default class Tracker extends React.Component {
         this.state = {
             elapsed: 0,
             timerRunning: false,
-            position: {},
+            positions: [],
             debug: false,
         };
     }
 
+    totalDistance = () => {
+        if (this.state.positions.length < 2) return 0;
+
+        var sum = 0.0;
+        
+        for (var i = 0; i < this.state.positions.length - 1; ++i) {
+            sum += distance(this.state.positions[i], this.state.positions[i + 1])
+        }
+
+        return sum;
+    };
 
     locationChanged = (pos) => {
-        this.setState({position: pos})
+        this.setState({positions: [...this.state.positions, pos]})
     };
 
     errorHappened = () => {
@@ -56,14 +68,15 @@ export default class Tracker extends React.Component {
 
         var debugPanel;
         if (this.state.debug) {
-            debugPanel = <DebugPanel position={this.state.position}/>
+            debugPanel = <DebugPanel positions={this.state.positions}/>
         }
-
+        
         return (
             <div>
                 {onOffButton}
                 <button onClick={this.resetTimer}>reset</button>
                 <input type="checkbox" checked={this.state.debug} onChange={this.toggleDebug}/>
+                <p>Distance: {this.totalDistance()}</p>
                 <Timer elapsed={this.state.elapsed}/>
                 {debugPanel}
             </div>

@@ -2,13 +2,19 @@ import React from 'react';
 
 export default class DebugPanel extends React.Component {
     render() {
-        var lat = this.props.position.latitude;
-        var lon = this.props.position.longitude;
+        var lastPosition = this.props.positions[this.props.positions.length - 1];
+        if (!lastPosition) {
+            return <div>Waiting for position</div>
+        }
+        
+        var lat = lastPosition.latitude;
+        var lon = lastPosition.longitude;
+        var count = this.props.positions.length;
         
         return (
             <div>
                 <div>
-                    Lat: {lat} | Lon: {lon}
+                    Cnt: {count} Lat: {lat} | Lon: {lon}
                 </div>
                 
                 <div>

@@ -24,7 +24,7 @@ export default class FakeGPS {
             latitude: this.fakePosition.latitude + 0.0005,
             longitude: this.fakePosition.longitude + 0.0005,
             speed: Math.random() * 10
-        }
+        };
     };
 
     stopPolling = () => {

@@ -1,4 +1,4 @@
-export function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+export function distance({latitude: lat1, longitude: lon1}, {latitude: lat2, longitude: lon2}) {
     function deg2rad(deg) {
         return deg * (Math.PI / 180);
     }
