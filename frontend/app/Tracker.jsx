@@ -1,9 +1,10 @@
 import React from 'react';
 import Timer from './Timer.jsx';
 import GPS from './GPS.js';
+import DebugPanel from './DebugPanel.jsx';
 
 export default class Tracker extends React.Component {
-   
+
     constructor(props) {
         super(props);
 
@@ -13,12 +14,14 @@ export default class Tracker extends React.Component {
         this.state = {
             elapsed: 0,
             timerRunning: false,
-            currentLocation: "not yet"
+            position: {},
+            debug: false,
         };
     }
 
+
     locationChanged = (pos) => {
-        this.setState({currentLocation: `${pos.latitude} ${pos.longitude} ${pos.speed}`})
+        this.setState({position: pos})
     };
 
     errorHappened = () => {
@@ -41,18 +44,27 @@ export default class Tracker extends React.Component {
         this.setState({elapsed: 0});
     };
 
+    toggleDebug = () => {
+        this.setState({debug: !this.state.debug})
+    };
 
     render() {
         const onOffButton = this.state.timerRunning ?
             <button onClick={this.turnTimerOff}>off</button>
             : <button onClick={this.turnTimerOn}>on</button>;
 
+        var debugPanel;
+        if (this.state.debug) {
+            debugPanel = <DebugPanel position={this.state.position}/>
+        }
+
         return (
             <div>
                 {onOffButton}
                 <button onClick={this.resetTimer}>reset</button>
-                <p>{this.state.currentLocation}</p>
+                <input type="checkbox" checked={this.state.debug} onChange={this.toggleDebug}/>
                 <Timer elapsed={this.state.elapsed}/>
+                {debugPanel}
             </div>
         )
     }
