@@ -7,3 +7,14 @@ frontend/node_modules
 frontend/typings
 frontend/bundle.js
 frontend/bundle.js.map
+
+mobile/node_modules
+mobile/app/platforms
+!mobile/app/platforms/*.json
+
+mobile/app/plugins
+!mobile/app/plugins/*.json
+mobile/app/www
+
+
+android-sdk
