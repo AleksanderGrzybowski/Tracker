@@ -21,7 +21,7 @@ export default class Tracker extends React.Component {
 
         this.state = {
             elapsed: 0,
-            timerRunning: false,
+            running: false,
             positions: [],
             debug: false,
             status: Status.WAITING
@@ -41,10 +41,12 @@ export default class Tracker extends React.Component {
     };
 
     locationChanged = (pos) => {
-        this.setState({
-            positions: [...this.state.positions, pos],
-            status: Status.FOUND
-        })
+        if (this.state.running) {
+            this.setState({
+                positions: [...this.state.positions, pos],
+                status: Status.FOUND
+            })
+        }
     };
 
     errorHappened = () => {
@@ -52,19 +54,16 @@ export default class Tracker extends React.Component {
     };
 
     toggleTimer = () => {
-        if (this.state.timerRunning) {
-            clearInterval(this.intervalId)
+        if (this.state.running) {
+            clearInterval(this.intervalId);
         } else {
+            this.setState({elapsed: 0, positions: []});
             this.intervalId = setInterval(() => {
                 this.setState({elapsed: this.state.elapsed + 1})
             }, 1000)
         }
         
-        this.setState({timerRunning: !this.state.timerRunning});
-    };
-
-    resetTimer = () => {
-        this.setState({elapsed: 0});
+        this.setState({running: !this.state.running});
     };
 
     toggleDebug = () => {
@@ -72,7 +71,7 @@ export default class Tracker extends React.Component {
     };
 
     render() {
-        const buttonText = this.state.timerRunning ? 'off' : 'on';
+        const buttonText = this.state.running ? 'off' : 'on';
         
         var infoText;
         if (this.state.status === Status.WAITING) {
@@ -102,7 +101,6 @@ export default class Tracker extends React.Component {
                 
                 <div>
                     <button onClick={this.toggleTimer}>{buttonText}</button>
-                    <button onClick={this.resetTimer}>reset</button>
                     <Timer elapsed={this.state.elapsed}/>
                 </div>
                 
