@@ -51,16 +51,16 @@ export default class Tracker extends React.Component {
         this.setState({status: Status.ERROR})
     };
 
-    turnTimerOn = () => {
-        this.setState({timerRunning: true});
-        this.intervalId = setInterval(() => {
-            this.setState({elapsed: this.state.elapsed + 1})
-        }, 1000)
-    };
-
-    turnTimerOff = () => {
-        this.setState({timerRunning: false});
-        clearInterval(this.intervalId)
+    toggleTimer = () => {
+        if (this.state.timerRunning) {
+            clearInterval(this.intervalId)
+        } else {
+            this.intervalId = setInterval(() => {
+                this.setState({elapsed: this.state.elapsed + 1})
+            }, 1000)
+        }
+        
+        this.setState({timerRunning: !this.state.timerRunning});
     };
 
     resetTimer = () => {
@@ -72,9 +72,7 @@ export default class Tracker extends React.Component {
     };
 
     render() {
-        const onOffButton = this.state.timerRunning ?
-            <button onClick={this.turnTimerOff}>off</button>
-            : <button onClick={this.turnTimerOn}>on</button>;
+        const buttonText = this.state.timerRunning ? 'off' : 'on';
         
         var infoText;
         if (this.state.status === Status.WAITING) {
@@ -103,7 +101,7 @@ export default class Tracker extends React.Component {
                 </div>
                 
                 <div>
-                    {onOffButton}
+                    <button onClick={this.toggleTimer}>{buttonText}</button>
                     <button onClick={this.resetTimer}>reset</button>
                     <Timer elapsed={this.state.elapsed}/>
                 </div>
