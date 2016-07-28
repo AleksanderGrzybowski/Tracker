@@ -5,6 +5,12 @@ import FakeGPS from './FakeGPS.js';
 import DebugPanel from './DebugPanel.jsx';
 import {distance} from './utils.js';
 
+const Status = {
+    WAITING: 'waiting',
+    FOUND: 'found',
+    ERROR: 'error'
+};
+
 export default class Tracker extends React.Component {
 
     constructor(props) {
@@ -18,6 +24,7 @@ export default class Tracker extends React.Component {
             timerRunning: false,
             positions: [],
             debug: false,
+            status: Status.WAITING
         };
     }
 
@@ -34,11 +41,14 @@ export default class Tracker extends React.Component {
     };
 
     locationChanged = (pos) => {
-        this.setState({positions: [...this.state.positions, pos]})
+        this.setState({
+            positions: [...this.state.positions, pos],
+            status: Status.FOUND
+        })
     };
 
     errorHappened = () => {
-        this.setState({currentLocation: 'error happened'})
+        this.setState({status: Status.ERROR})
     };
 
     turnTimerOn = () => {
@@ -65,6 +75,17 @@ export default class Tracker extends React.Component {
         const onOffButton = this.state.timerRunning ?
             <button onClick={this.turnTimerOff}>off</button>
             : <button onClick={this.turnTimerOn}>on</button>;
+        
+        var infoText;
+        if (this.state.status === Status.WAITING) {
+            infoText = 'Waiting for GPS';
+        } else if (this.state.status === Status.FOUND) {
+            infoText = 'GPS signal ok';
+        } else if (this.state.status === Status.ERROR) {
+            infoText = 'Error accessing GPS';
+        } else {
+            infoText = 'unknown status';
+        }
 
         var debugPanel;
         if (this.state.debug) {
@@ -73,11 +94,21 @@ export default class Tracker extends React.Component {
         
         return (
             <div>
-                {onOffButton}
-                <button onClick={this.resetTimer}>reset</button>
-                <input type="checkbox" checked={this.state.debug} onChange={this.toggleDebug}/>
+                <div>{infoText}</div>
+                <div>
+                    <label>
+                        <input type="checkbox" checked={this.state.debug} onChange={this.toggleDebug}/>
+                        Debug panel
+                    </label>
+                </div>
+                
+                <div>
+                    {onOffButton}
+                    <button onClick={this.resetTimer}>reset</button>
+                    <Timer elapsed={this.state.elapsed}/>
+                </div>
+                
                 <p>Distance: {this.totalDistance()}</p>
-                <Timer elapsed={this.state.elapsed}/>
                 {debugPanel}
             </div>
         )
