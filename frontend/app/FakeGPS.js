@@ -1,4 +1,4 @@
-export default class FakeGPS {
+export default class GPS {
 
     constructor(locationChangedCallback, errorCallback) {
         this.locationChangedCallback = locationChangedCallback;

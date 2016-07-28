@@ -1,7 +1,7 @@
 import React from 'react';
 import Timer from './Timer.jsx';
-import GPS from './GPS.js';
-import FakeGPS from './FakeGPS.js';
+// import GPS from './GPS.js';
+import GPS from './FakeGPS.js';
 import DebugPanel from './DebugPanel.jsx';
 import {distance} from './utils.js';
 
