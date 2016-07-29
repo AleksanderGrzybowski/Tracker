@@ -1,11 +1,9 @@
 import React from 'react';
 import Timer from './Timer.jsx';
-import GPS from './FakeGPS.js';
+import GPS from './GPS.js';
 import DebugPanel from './DebugPanel.jsx';
 import {distance} from './utils.js';
 import {Button, Grid, Row, Col, Panel} from 'react-bootstrap';
-// import GPS from './GPS.js';
-// import GPS from './GPS.js';
 
 const Status = {
     WAITING: 'waiting',
@@ -43,6 +41,7 @@ export default class Tracker extends React.Component {
     };
 
     locationChanged = (pos) => {
+        this.setState({status: Status.FOUND});
         if (this.state.running) {
             this.setState({
                 positions: [...this.state.positions, pos],
@@ -73,25 +72,17 @@ export default class Tracker extends React.Component {
     };
 
     render() {
-        const buttonText = this.state.running ? 'Stop' : 'Start';
-
-        var infoText;
-        if (this.state.status === Status.WAITING) {
-            infoText = 'Waiting for GPS';
-        } else if (this.state.status === Status.ERROR) {
-            infoText = 'Error accessing GPS';
+        var buttonText;
+        if (this.state.status == Status.WAITING) {
+            buttonText = 'Please wait...';
+        } else if (this.state.status == Status.ERROR) {
+            buttonText = 'Error occured';
+        } else {
+            buttonText = this.state.running ? 'Stop' : 'Start'; 
         }
-
-        var infoPanel;
-        if (infoText) {
-            infoPanel = (
-                <Col xs={12}>
-                    <Panel>
-                        {infoText}
-                    </Panel>
-                </Col>
-            )
-        }
+        
+        var buttonOnclick = (this.state.status == Status.ERROR || this.state.status == Status.WAITING)
+            ? (() => {}) : this.toggleTimer;
 
         var debugPanel;
         if (this.state.debug) {
@@ -107,15 +98,13 @@ export default class Tracker extends React.Component {
                     </Col>
                 </Row>
 
-                {infoPanel}
-
                 <Row>
                     <Col xs={12} style={style}>
                         <Button
                             block
                             bsSize="large"
                             bsStyle={this.state.running ? 'warning' : 'success'}
-                            onClick={this.toggleTimer}
+                            onClick={buttonOnclick}
                         >
                             {buttonText}
                         </Button>
