@@ -4,6 +4,7 @@ import Timer from './Timer.jsx';
 import GPS from './FakeGPS.js';
 import DebugPanel from './DebugPanel.jsx';
 import {distance} from './utils.js';
+import { Button } from 'react-bootstrap';
 
 const Status = {
     WAITING: 'waiting',
@@ -91,6 +92,7 @@ export default class Tracker extends React.Component {
         
         return (
             <div>
+                <Button bsStyle="primary">Bootstrap works?</Button>
                 <div>{infoText}</div>
                 <div>
                     <label>
