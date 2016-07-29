@@ -1,39 +1,40 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 
+function mapsUrl(position) {
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${position.latitude},${position.longitude}&zoom=17&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C${position.latitude},${position.longitude}`
+}
+
 export default class DebugPanel extends React.Component {
     render() {
-        var positionsCount = this.props.positions.length;
+        var lastPosition = this.props.positions[this.props.positions.length - 1];
 
-        var lastPosition = this.props.positions[positionsCount - 1];
+        var preStyle = {
+            fontSize: 10
+        };
 
-        var lat, lon;
-        if (!lastPosition) {
-            lat = lon = 'n/a';
-        } else {
-            lat = lastPosition.latitude;
-            lon = lastPosition.longitude;
-        }
+        var preText = this.props.positions
+            .map((pos, idx) => `${idx} | ${pos.latitude.toFixed(10)} | ${pos.longitude.toFixed(10)}`)
+            .join("\n");
 
         return (
             <div>
                 <Row>
                     <Col xs={12}>
                         <img
-                            className='img-responsive'
-                            src={`https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lon}&zoom=14&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C${lat},${lon}`}
+                            className="img-responsive"
+                            src={mapsUrl(lastPosition)}
                         />
                     </Col>
                 </Row>
 
                 <Row>
                     <Col xs={12}>
-                        <pre>
-                            Cnt: {positionsCount} Lat: {lat} | Lon: {lon}
+                        <pre style={preStyle}>
+                            {preText}
                         </pre>
                     </Col>
                 </Row>
-
             </div>
         )
     }
