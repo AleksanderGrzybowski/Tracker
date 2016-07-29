@@ -8,6 +8,11 @@ function mapsUrl(position) {
 export default class DebugPanel extends React.Component {
     render() {
         var lastPosition = this.props.positions[this.props.positions.length - 1];
+        
+        var image;
+        if (lastPosition) {
+            image = <img className="img-responsive" src={mapsUrl(lastPosition)} />
+        } 
 
         var preStyle = {
             fontSize: 10
@@ -21,10 +26,7 @@ export default class DebugPanel extends React.Component {
             <div>
                 <Row>
                     <Col xs={12}>
-                        <img
-                            className="img-responsive"
-                            src={mapsUrl(lastPosition)}
-                        />
+                        {image}
                     </Col>
                 </Row>
 
