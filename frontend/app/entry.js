@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import Tracker from './Tracker.jsx';
 
-require('../node_modules/bootstrap/dist/css/bootstrap.css');
+require('../node_modules/bootstrap/dist/css/bootstrap.css'); // eslint-disable-line no-undef
 
 // cordova
 document.addEventListener('deviceready', () => {

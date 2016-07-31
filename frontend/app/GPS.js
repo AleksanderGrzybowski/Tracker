@@ -7,16 +7,17 @@ export default class GPS {
     }
 
     startPolling = () => {
+        var gpsConfig = {enableHighAccuracy: true, timeout: 20000, maximumAge: 0};
+
         this.watchId = navigator.geolocation.watchPosition(
             (position) => {
                 this.locationChangedCallback({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    speed: position.speed
+                    longitude: position.coords.longitude
                 });
             },
             (error) => this.errorCallback(error),
-            {enableHighAccuracy: true, timeout: 10000, maximumAge: 0}
+            gpsConfig
         );
     };
 

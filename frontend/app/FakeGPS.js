@@ -4,6 +4,7 @@ export default class GPS {
         this.locationChangedCallback = locationChangedCallback;
         this.errorCallback = errorCallback;
         this.intervalId = null;
+        this.pollingInterval = 2000;
 
         this.fakePosition = {
             latitude: 49.722655,
@@ -16,7 +17,7 @@ export default class GPS {
         this.intervalId = setInterval(() => {
             this.locationChangedCallback(this.fakePosition);
             this.updatePosition();
-        }, 2000);
+        }, this.pollingInterval);
     };
 
     updatePosition = () => {

@@ -44,8 +44,7 @@ export default class Tracker extends React.Component {
         this.setState({status: Status.FOUND});
         if (this.state.running) {
             this.setState({
-                positions: [...this.state.positions, pos],
-                status: Status.FOUND
+                positions: [...this.state.positions, pos]
             })
         }
     };
@@ -78,11 +77,12 @@ export default class Tracker extends React.Component {
         } else if (this.state.status == Status.ERROR) {
             buttonText = 'Error occured';
         } else {
-            buttonText = this.state.running ? 'Stop' : 'Start'; 
+            buttonText = this.state.running ? 'Stop' : 'Start';
         }
-        
+
         var buttonOnclick = (this.state.status == Status.ERROR || this.state.status == Status.WAITING)
-            ? (() => {}) : this.toggleTimer;
+            ? (() => {
+        }) : this.toggleTimer;
 
         var debugPanel;
         if (this.state.debug) {
@@ -117,7 +117,7 @@ export default class Tracker extends React.Component {
                             <Timer elapsed={this.state.elapsed}/>
                         </Panel>
                     </Col>
-                    
+
                     <Col xs={6}>
                         <Panel>
                             <p className="text-center">{this.totalDistance().toFixed(1)} km</p>
