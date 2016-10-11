@@ -2,8 +2,8 @@ import React from 'react';
 import Timer from './Timer.jsx';
 import GPS from './GPS.js';
 import DebugPanel from './DebugPanel.jsx';
-import {distance} from './utils.js';
-import {Button, Grid, Row, Col, Panel} from 'react-bootstrap';
+import { distance } from './utils.js';
+import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
 
 const Status = {
     WAITING: 'waiting',
@@ -31,9 +31,8 @@ export default class Tracker extends React.Component {
     totalDistance = () => {
         if (this.state.positions.length < 2) return 0;
 
-        var sum = 0.0;
-
-        for (var i = 0; i < this.state.positions.length - 1; ++i) {
+        let sum = 0.0;
+        for (let i = 0; i < this.state.positions.length - 1; ++i) {
             sum += distance(this.state.positions[i], this.state.positions[i + 1])
         }
 
@@ -71,7 +70,7 @@ export default class Tracker extends React.Component {
     };
 
     render() {
-        var buttonText;
+        let buttonText;
         if (this.state.status == Status.WAITING) {
             buttonText = 'Please wait...';
         } else if (this.state.status == Status.ERROR) {
@@ -80,16 +79,12 @@ export default class Tracker extends React.Component {
             buttonText = this.state.running ? 'Stop' : 'Start';
         }
 
-        var buttonOnclick = (this.state.status == Status.ERROR || this.state.status == Status.WAITING)
-            ? (() => {
-        }) : this.toggleTimer;
+        let buttonOnclick = (this.state.status == Status.ERROR || this.state.status == Status.WAITING)
+            ? (() => {}
+        ) : this.toggleTimer;
 
-        var debugPanel;
-        if (this.state.debug) {
-            debugPanel = <DebugPanel positions={this.state.positions}/>
-        }
+        let debugPanel = (this.state.debug) ? <DebugPanel positions={this.state.positions}/> : null;
 
-        var style = {marginBottom: 10};
         return (
             <Grid>
                 <Row>
@@ -99,7 +94,7 @@ export default class Tracker extends React.Component {
                 </Row>
 
                 <Row>
-                    <Col xs={12} style={style}>
+                    <Col xs={12} style={{marginBottom: 10}}>
                         <Button
                             block
                             bsSize="large"

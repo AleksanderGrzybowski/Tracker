@@ -7,18 +7,11 @@ function mapsUrl(position) {
 }
 
 const DebugPanel = (props) => {
-    var lastPosition = props.positions[props.positions.length - 1];
+    const lastPosition = props.positions[props.positions.length - 1];
 
-    var image;
-    if (lastPosition) {
-        image = <img className="img-responsive" src={mapsUrl(lastPosition)}/>
-    }
+    const image = lastPosition ? <img className="img-responsive" src={mapsUrl(lastPosition)}/> : null;
 
-    var preStyle = {
-        fontSize: 10
-    };
-
-    var preText = props.positions
+    const preText = props.positions
         .map((pos, idx) => `${idx} | ${pos.latitude.toFixed(10)} | ${pos.longitude.toFixed(10)}`)
         .join("\n");
 
@@ -32,7 +25,7 @@ const DebugPanel = (props) => {
 
             <Row>
                 <Col xs={12}>
-                        <pre style={preStyle}>
+                        <pre style={{fontSize: 10}}>
                             {preText}
                         </pre>
                 </Col>

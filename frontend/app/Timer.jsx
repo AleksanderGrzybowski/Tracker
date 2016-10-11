@@ -1,11 +1,15 @@
 import React from 'react';
 
-function secondsToString(totalSec) {
-    var hours = parseInt(totalSec / 3600) % 24;
-    var minutes = parseInt(totalSec / 60) % 60;
-    var seconds = totalSec % 60;
+function padWithZero(number) {
+    return number < 10 ? "0" + number : number
+}
 
-    return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+function secondsToString(totalSeconds) {
+    const hours = parseInt(totalSeconds / 3600) % 24;
+    const minutes = parseInt(totalSeconds / 60) % 60;
+    const seconds = totalSeconds % 60;
+
+    return [hours, minutes, seconds].map(padWithZero).join(':');
 }
 
 const Timer = ({elapsed}) => (
