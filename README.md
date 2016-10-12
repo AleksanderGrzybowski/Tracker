@@ -14,3 +14,5 @@ To run it on physical Android device:
 * run `npm install` in relevant folders 
 * set absolute path to android sdk in `./run-android.sh`
 * run the above script
+
+![Screenshot 1](screenshots/1.png)
